@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Get inspired with random motivational quotes">
+    <title>Quote App - Daily Inspiration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="container">
+        
+        <!-- Header Section -->
+        <header>
+            <h1>Daily Quote Generator</h1>
+            <p class="subtitle">Get inspired with random quotes</p>
+        </header>
+
+        <!-- Quote Display Card -->
+        <div class="quote-card" id="quoteCard">
+            <div class="quote-content">
+                <p class="quote-text" id="quoteText">
+                    Click the button below to get your first quote!
+                </p>
+                <p class="quote-author" id="quoteAuthor"></p>
+                <span class="quote-category" id="quoteCategory"></span>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="button-group">
+            <button id="newQuoteBtn" class="btn btn-primary">
+                New Quote
+            </button>
+            <button id="shareBtn" class="btn btn-secondary">
+                Share
+            </button>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="stats">
+            <div class="stat-item">
+                <span class="stat-label">Total Quotes</span>
+                <span class="stat-value" id="totalQuotes">-</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Quotes Viewed</span>
+                <span class="stat-value" id="quotesViewed">0</span>
+            </div>
+        </div>
+
+        <!-- Categories Section -->
+        <div class="categories" id="categoriesSection">
+            <h3>Browse by Category</h3>
+            <div class="category-tags" id="categoryTags">
+                <!-- Categories will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>A small step toward mastering DevOps. | 
+                <a href="/health" target="_blank">API Health</a> | 
+                <a href="/api/quotes" target="_blank">View All Quotes</a>
+            </p>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
