@@ -174,18 +174,18 @@ app.use((req, res) => {
 if (require.main === module) {
   app.listen(PORT, '0.0.0.0', () => {
     console.log('=================================');
-    console.log(`🚀 Quote App Server Running`);
-    console.log(`📡 Port: ${PORT}`);
-    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`📝 Total Quotes: ${quotes.length}`);
+    console.log(`Quote App Server Running`);
+    console.log(`Port: ${PORT}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`Total Quotes: ${quotes.length}`);
     console.log('=================================');
-    console.log(`\n🔗 API Endpoints:`);
+    console.log(`\nAPI Endpoints:`);
     console.log(`   Health:     http://localhost:${PORT}/health`);
     console.log(`   All Quotes: http://localhost:${PORT}/api/quotes`);
     console.log(`   Random:     http://localhost:${PORT}/api/quotes/random`);
     console.log(`   By ID:      http://localhost:${PORT}/api/quotes/1`);
     console.log(`   Category:   http://localhost:${PORT}/api/quotes/category/motivation`);
-    console.log(`\n🌐 Frontend:   http://localhost:${PORT}\n`);
+    console.log(`\nFrontend:   http://localhost:${PORT}\n`);
   });
 }
 
