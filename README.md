@@ -113,6 +113,36 @@ docker run -p 3000:3000 quote-app
 docker-compose up
 ```
 
+## Docker Hub
+
+Pull the pre-built image:
+
+```bash
+docker pull adityajareda/quote-app:latest
+```
+
+**Image Details:**
+- Repository: [adityajareda/quote-app](https://hub.docker.com/r/adityajareda/quote-app)
+- Size: ~150MB
+- Base: Node.js 18 Alpine
+- Tags: `latest`, `v1.0.0`
+
+### Running from Docker Hub
+
+```bash
+# Quick run
+docker run -p 3000:3000 adityajareda/quote-app:latest
+
+# With environment variables
+docker run -p 3000:3000 \
+  -e NODE_ENV=production \
+  -e PORT=3000 \
+  adityajareda/quote-app:latest
+
+# With Docker Compose
+docker compose up -d
+```
+
 ## Project Structure
 
 ```
