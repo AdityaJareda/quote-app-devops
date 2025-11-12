@@ -1,0 +1,32 @@
+name: Health Check
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  health:
+    name: Check Application Health
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Pull latest image
+        run: docker pull ${{ secrets.DOCKERHUB_USERNAME }}/quote-app:latest
+      
+      - name: Run container
+        run: |
+          docker run -d --name health-check -p 3000:3000 \
+            ${{ secrets.DOCKERHUB_USERNAME }}/quote-app:latest
+      
+      - name: Wait for startup
+        run: sleep 10
+      
+      - name: Health check
+        run: |
+          curl -f http://localhost:3000/health || exit 1
+          curl -f http://localhost:3000/api/quotes/random || exit 1
+      
+      - name: Cleanup
+        if: always()
+        run: docker rm -f health-check
