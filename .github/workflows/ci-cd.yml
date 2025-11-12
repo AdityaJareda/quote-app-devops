@@ -19,6 +19,12 @@ env:
   NODE_VERSION: '18'
   DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/quote-app
 
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+  packages: write
+
 jobs:
   
   test:
