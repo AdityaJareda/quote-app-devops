@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: quote-app-service
+  namespace: quote-app
+  labels:
+    app: quote-app
+spec:
+  type: NodePort
+  selector:
+    app: quote-app
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 3000
+    nodePort: 30080
+  sessionAffinity: None
