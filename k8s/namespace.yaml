@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: quote-app
+  labels:
+    name: quote-app
+    environment: production
