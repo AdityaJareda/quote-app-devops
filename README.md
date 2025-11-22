@@ -356,7 +356,8 @@ APP_VERSION=1.0.0
 
 ## Deployment
 
-### Deploy with Docker
+### Docker
+
 ```bash
 # Pull latest image
 docker pull adityajareda/quote-app:latest
@@ -370,18 +371,35 @@ docker run -d \
   adityajareda/quote-app:latest
 ```
 
-### Deploy with Kubernetes
+### Kubernetes
+
 ```bash
-# Apply manifests (coming in Day 4)
+# Start Minikube (local development)
+minikube start --driver=docker
+minikube addons enable metrics-server
+
+# Apply manifests
 kubectl apply -f k8s/
 
 # Check deployment
-kubectl get pods
-kubectl get services
+kubectl get all -n quote-app
 
 # Access application
-kubectl port-forward service/quote-app-service 3000:80
+minikube service quote-app-service -n quote-app --url
+
+# Or use port forwarding
+kubectl port-forward -n quote-app service/quote-app-service 8080:80
 ```
+**Features:**
+- 3 replicas for high availability
+- Horizontal Pod Autoscaler (2-10 pods based on CPU/memory)
+- Health checks (liveness and readiness probes)
+- Resource limits and requests
+- ConfigMap for environment variables
+- NodePort service for external access
+- Rolling updates with zero downtime
+
+See [k8s/README.md](k8s/README.md) for detailed Kubernetes documentation.
 
 ---
 
