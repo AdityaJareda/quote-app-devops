@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: quote-app-monitor
+  namespace: quote-app
+  labels:
+    app: quote-app
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: quote-app
+  endpoints:
+  - port: http
+    path: /metrics
+    interval: 30s

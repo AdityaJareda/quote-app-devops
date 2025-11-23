@@ -7,6 +7,36 @@ const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
 
+// Prometheus metrics
+const promClient = require('prom-client');
+const register = new promClient.Registry();
+
+// Collect default metrics
+promClient.collectDefaultMetrics({ register });
+
+// Custom metrics
+const httpRequestDuration = new promClient.Histogram({
+  name: 'http_request_duration_seconds',
+  help: 'Duration of HTTP requests in seconds',
+  labelNames: ['method', 'route', 'status_code'],
+  buckets: [0.1, 0.3, 0.5, 0.7, 1, 3, 5, 7, 10]
+});
+register.registerMetric(httpRequestDuration);
+
+const httpRequestTotal = new promClient.Counter({
+  name: 'http_requests_total',
+  help: 'Total number of HTTP requests',
+  labelNames: ['method', 'route', 'status_code']
+});
+register.registerMetric(httpRequestTotal);
+
+const quotesServedTotal = new promClient.Counter({
+  name: 'quotes_served_total',
+  help: 'Total number of quotes served',
+  labelNames: ['endpoint']
+});
+register.registerMetric(quotesServedTotal);
+
 // ============================================
 // APP INITIALIZATION
 // ============================================
@@ -22,6 +52,19 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
+// Metrics middleware
+app.use((req, res, next) => {
+  const start = Date.now();
+  
+  res.on('finish', () => {
+    const duration = (Date.now() - start) / 1000;
+    httpRequestDuration.labels(req.method, req.path, res.statusCode).observe(duration);
+    httpRequestTotal.labels(req.method, req.path, res.statusCode).inc();
+  });
+  
+  next();
+});
+
 // ============================================
 // DATA LOADING
 // ============================================
@@ -31,6 +74,15 @@ const quotes = require('./data/quotes.json');
 // ============================================
 // API ROUTES
 // ============================================
+
+/**
+ * Metrics Endpoint for Prometheus
+ * GET /metrics
+ */
+app.get('/metrics', async (req, res) => {
+  res.setHeader('Content-Type', register.contentType);
+  res.send(await register.metrics());
+});
 
 /**
  * Health Check Endpoint
@@ -75,6 +127,10 @@ app.get('/api/quotes', (req, res) => {
 app.get('/api/quotes/random', (req, res) => {
   const randomIndex = Math.floor(Math.random() * quotes.length);
   const randomQuote = quotes[randomIndex];
+
+  // Track metric
+  quotesServedTotal.labels('/api/quotes/random').inc();
+  
   res.json(randomQuote);
 });
 
