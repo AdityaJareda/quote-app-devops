@@ -1,6 +1,5 @@
-# Quote App - DevOps CI/CD Project
+# Quote App - Complete DevOps CI/CD Project
 
-<!-- Status Badges -->
 ![CI/CD Pipeline](https://github.com/AdityaJareda/quote-app-devops/actions/workflows/ci-cd.yml/badge.svg)
 ![Node.js](https://img.shields.io/badge/Node.js-18.x-green?logo=node.js)
 ![Docker](https://img.shields.io/docker/pulls/adityajareda/quote-app?logo=docker)
@@ -9,50 +8,171 @@
 ![Tests](https://img.shields.io/badge/tests-14%20passing-brightgreen)
 ![Coverage](https://img.shields.io/badge/coverage-85%25-yellowgreen)
 
-> A full-stack random quote generator demonstrating modern DevOps practices including automated CI/CD pipelines, Docker containerization, security scanning, and comprehensive testing.
+> A production-grade random quote generator demonstrating end-to-end DevOps practices including automated CI/CD pipelines, container orchestration, infrastructure as code, and comprehensive monitoring.
+
+**Live Demo:** [Docker Hub Repository](https://hub.docker.com/r/adityajareda/quote-app)
+
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Quick Start](#quick-start)
+- [Documentation](#documentation)
+- [Deployment](#deployment)
+- [Monitoring](#monitoring)
+- [CI/CD Pipeline](#cicd-pipeline)
+- [API Documentation](#api-documentation)
+- [Project Structure](#project-structure)
+- [Development](#development)
+- [Testing](#testing)
+- [Infrastructure as Code](#infrastructure-as-code)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [License](#license)
+- [Author](#author)
+
+---
+
+## Overview
+
+This project demonstrates a complete DevOps workflow from development to production, showcasing modern cloud-native practices and tools. Built as a learning project, it covers all aspects of the DevOps lifecycle.
+
+### What Makes This Project Unique
+
+- **Full DevOps Lifecycle**: From code to production
+- **Infrastructure as Code**: Terraform for reproducible infrastructure
+- **Automated CI/CD**: GitHub Actions with multi-stage pipeline
+- **Container Orchestration**: Kubernetes with autoscaling
+- **Comprehensive Monitoring**: Prometheus + Grafana metrics
+- **Security Scanning**: Automated vulnerability detection
+- **Production-Ready**: Health checks, logging, resource limits
+
+---
+
+## Screenshots
+
+**Homepage - Random Quote Display**
+
+![Quote App Homepage](docs/screenshots/homepage.png)
+*Clean, responsive UI with random quote generation*
+
+---
+
+## Architecture
+
+### High-Level Architecture
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         GitHub Repository                        │
+│                    (Source Code + CI/CD)                        │
+└────────────────────────────┬────────────────────────────────────┘
+                             │
+                    ┌────────▼─────────┐
+                    │  GitHub Actions  │
+                    │   CI/CD Pipeline │
+                    └────────┬─────────┘
+                             │
+              ┌──────────────┼──────────────┐
+              │              │              │
+        ┌─────▼─────┐  ┌────▼────┐  ┌─────▼──────┐
+        │   Test    │  │  Build  │  │   Security │
+        │  (Jest)   │  │ (Docker)│  │   (Trivy)  │
+        └───────────┘  └────┬────┘  └────────────┘
+                            │
+                    ┌───────▼────────┐
+                    │   Docker Hub   │
+                    │  Image Registry│
+                    └───────┬────────┘
+                            │
+              ┌─────────────┼─────────────┐
+              │             │             │
+        ┌─────▼─────┐ ┌────▼──────┐ ┌───▼────────┐
+        │   Local   │ │ Kubernetes│ │  Terraform │
+        │   Docker  │ │  Cluster  │ │    IaC     │
+        └───────────┘ └────┬──────┘ └────────────┘
+                           │
+              ┌────────────┼────────────┐
+              │            │            │
+        ┌─────▼─────┐ ┌───▼────┐ ┌────▼─────┐
+        │   Pods    │ │ Service│ │    HPA   │
+        │  (2-10)   │ │ (LB)   │ │(Autoscale)│
+        └─────┬─────┘ └────────┘ └──────────┘
+              │
+        ┌─────▼──────┐
+        │ Prometheus │
+        │  Grafana   │
+        └────────────┘
+```
+
+### Component Interaction
+```
+User → Service (NodePort/Ingress) → Pods (Quote App) → Metrics
+                                         │
+                                         ▼
+                                    Prometheus
+                                         │
+                                         ▼
+                                     Grafana
+```
 
 ---
 
 ## Features
 
-### User Features
-- **Random Quote Generation** - Get inspired with motivational quotes
-- **Category Filtering** - Browse quotes by category (motivation, life, wisdom, etc.)
-- **Statistics Tracking** - View total quotes and personal viewing history
-- **Share Functionality** - Copy quotes to clipboard or share via native API
-- **Keyboard Shortcuts** - Space for new quote, 'S' to share
-- **Responsive Design** - Works seamlessly on desktop, tablet, and mobile
+### Application Features
+- Random quote generation with 10+ categories
+- RESTful API with 7 endpoints
+- Category-based filtering
+- Statistics tracking
+- Share functionality
+- Keyboard shortcuts
+- Fully responsive design
 
-### Technical Features
-- **RESTful API** - Clean, documented endpoints
-- **Fully Dockerized** - Multi-stage optimized build
-- **CI/CD Pipeline** - Automated testing, building, and deployment
-- **Security Scanning** - Automated vulnerability detection with Trivy
-- **Comprehensive Testing** - 14 unit tests with 85%+ coverage
-- **Multi-platform Support** - Built for amd64 and arm64 architectures
-- **Health Checks** - Built-in monitoring and health endpoints
+### DevOps Features
+- Automated CI/CD pipeline
+- Multi-stage Docker builds
+- Kubernetes orchestration
+- Horizontal pod autoscaling (2-10 replicas)
+- Infrastructure as code (Terraform)
+- Real-time monitoring (Prometheus + Grafana)
+- Security scanning (Trivy)
+- Automated testing (Jest)
+- Health checks and probes
+- Resource limits and requests
+- Rolling updates with zero downtime
+- Multi-platform Docker builds (amd64, arm64)
 
 ---
 
 ## Tech Stack
 
-### Backend
-- **Node.js 18.x** - Runtime environment
-- **Express.js 4.18** - Web framework
-- **RESTful API** - Standard HTTP methods
+### Application Layer
+- **Runtime**: Node.js 18.x
+- **Framework**: Express.js 4.18
+- **Frontend**: HTML5, CSS3, Vanilla JavaScript
+- **Testing**: Jest, Supertest
 
-### Frontend
-- **HTML5** - Semantic markup
-- **CSS3** - Modern styling with Flexbox, Grid, and CSS Variables
-- **Vanilla JavaScript (ES6+)** - No framework dependencies
+### Infrastructure Layer
+- **Containerization**: Docker, Docker Compose
+- **Orchestration**: Kubernetes (Minikube)
+- **IaC**: Terraform
+- **CI/CD**: GitHub Actions
+- **Registry**: Docker Hub
 
-### DevOps & Infrastructure
-- **Docker & Docker Compose** - Containerization
-- **GitHub Actions** - CI/CD automation
-- **Jest & Supertest** - Testing framework
-- **Trivy** - Security vulnerability scanning
-- **Docker Hub** - Image registry
-- **Kubernetes** (upcoming) - Container orchestration
+### Monitoring & Observability
+- **Metrics**: Prometheus
+- **Visualization**: Grafana
+- **Logging**: Built-in Node.js logging
+- **Health Checks**: Liveness and readiness probes
+
+### Security
+- **Scanning**: Trivy
+- **Container Security**: Non-root user, read-only filesystem
+- **Secrets Management**: Kubernetes secrets, GitHub secrets
 
 ---
 
@@ -61,31 +181,12 @@
 ### Prerequisites
 
 - Node.js 18.x or higher
-- npm 9.x or higher
-- Git
-- Docker (optional, for containerized deployment)
+- Docker 24.x or higher
+- kubectl (for Kubernetes)
+- Minikube (for local Kubernetes)
+- Terraform 1.0+ (optional)
 
-### Option 1: Run with Docker (Recommended)
-```bash
-# Pull and run from Docker Hub
-docker run -p 3000:3000 adityajareda/quote-app:latest
-
-# Access at http://localhost:3000
-```
-
-### Option 2: Run with Docker Compose
-```bash
-# Clone repository
-git clone https://github.com/AdityaJareda/quote-app-devops.git
-cd quote-app-devops
-
-# Start with Docker Compose
-docker compose up -d
-
-# Access at http://localhost:3000
-```
-
-### Option 3: Local Development
+### Run Locally (Development)
 ```bash
 # Clone repository
 git clone https://github.com/AdityaJareda/quote-app-devops.git
@@ -94,14 +195,177 @@ cd quote-app-devops
 # Install dependencies
 npm install
 
-# Create environment file
-cp .env.example .env
-
-# Start development server (with auto-reload)
+# Start development server
 npm run dev
 
 # Access at http://localhost:3000
 ```
+
+### Run with Docker
+```bash
+# Pull from Docker Hub
+docker pull adityajareda/quote-app:latest
+
+# Run container
+docker run -p 3000:3000 adityajareda/quote-app:latest
+
+# Or use Docker Compose
+docker compose up -d
+```
+
+### Deploy to Kubernetes
+```bash
+# Start Minikube
+minikube start
+
+# Apply manifests
+kubectl apply -f k8s/
+
+# Access application
+minikube service quote-app-service -n quote-app --url
+```
+
+---
+
+## Documentation
+
+Comprehensive guides available:
+
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Complete deployment guide
+- **[KUBERNETES.md](KUBERNETES.md)** - Kubernetes quick reference
+- **[k8s/README.md](k8s/README.md)** - Kubernetes manifests documentation
+- **[terraform/README.md](terraform/README.md)** - Terraform usage guide
+- **[monitoring/README.md](monitoring/README.md)** - Monitoring setup
+- **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Common issues and solutions
+
+---
+
+## Deployment
+
+### Docker Deployment
+```bash
+# Development
+docker compose -f docker-compose.dev.yml up
+
+# Production
+docker compose up -d
+```
+
+### Kubernetes Deployment
+```bash
+# Deploy to Kubernetes
+kubectl apply -f k8s/
+
+# Scale manually
+kubectl scale deployment quote-app-deployment -n quote-app --replicas=5
+
+# Check autoscaler
+kubectl get hpa -n quote-app
+
+# View logs
+kubectl logs -n quote-app -l app=quote-app
+```
+
+### Terraform Deployment
+```bash
+# Docker deployment
+cd terraform/environments/dev
+terraform init
+terraform apply
+
+# Kubernetes deployment
+cd terraform/environments/prod
+terraform init
+terraform apply
+```
+
+See [terraform/README.md](terraform/README.md) for details.
+
+---
+
+## Monitoring
+
+### Access Monitoring Dashboards
+
+**Prometheus:**
+```bash
+kubectl port-forward -n monitoring svc/prometheus-server 9090:80
+# Access: http://localhost:9090
+```
+
+**Grafana:**
+```bash
+kubectl port-forward -n monitoring svc/grafana 3001:80
+# Access: http://localhost:3001
+# Login: admin / admin123
+```
+
+### Custom Metrics
+
+The application exposes metrics at `/metrics`:
+
+- `http_requests_total` - Total HTTP requests by method, route, status
+- `http_request_duration_seconds` - Request latency histogram
+- `quotes_served_total` - Total quotes served by endpoint
+- `process_*` - Node.js process metrics
+- `nodejs_*` - Node.js runtime metrics
+
+### Sample Prometheus Queries
+```promql
+# Request rate
+rate(http_requests_total[5m])
+
+# 95th percentile latency
+histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))
+
+# Total quotes served
+sum(quotes_served_total)
+
+# Pod CPU usage
+rate(container_cpu_usage_seconds_total{namespace="quote-app"}[5m])
+```
+
+---
+
+## CI/CD Pipeline
+
+### Pipeline Stages
+```
+Code Push → GitHub Actions
+    │
+    ├─→ Stage 1: Test (Jest, Coverage)
+    │       └─→ Upload coverage to Codecov
+    │
+    ├─→ Stage 2: Build & Push (Docker, Multi-arch)
+    │       └─→ Push to Docker Hub
+    │
+    ├─→ Stage 3: Security Scan (Trivy)
+    │       └─→ Upload to GitHub Security
+    │
+    └─→ Stage 4: Notify (Deployment summary)
+```
+
+### Workflow Features
+
+- Automated testing on every push
+- Multi-platform Docker builds (amd64, arm64)
+- Security vulnerability scanning
+- Automated image publishing
+- Branch protection rules
+- Status badges
+
+### Triggering Builds
+```bash
+# Push to main triggers full pipeline
+git push origin main
+
+# Create PR for review
+git checkout -b feature/new-feature
+git push origin feature/new-feature
+# Create PR on GitHub
+```
+
+View pipeline status: [GitHub Actions](https://github.com/AdityaJareda/quote-app-devops/actions)
 
 ---
 
@@ -117,12 +381,13 @@ http://localhost:3000
 | Method | Endpoint | Description | Example |
 |--------|----------|-------------|---------|
 | GET | `/health` | Health check | Returns server status |
-| GET | `/api/quotes` | Get all quotes | Supports pagination (`?page=1&limit=10`) |
+| GET | `/metrics` | Prometheus metrics | Returns application metrics |
+| GET | `/api/quotes` | Get all quotes | Supports `?page=1&limit=10` |
 | GET | `/api/quotes/random` | Get random quote | Returns one random quote |
 | GET | `/api/quotes/:id` | Get quote by ID | `/api/quotes/1` |
-| GET | `/api/quotes/category/:category` | Filter by category | `/api/quotes/category/motivation` |
-| GET | `/api/categories` | Get all categories | Returns list of available categories |
-| POST | `/api/quotes` | Add new quote | Requires `text`, `author`, `category` |
+| GET | `/api/quotes/category/:cat` | Filter by category | `/api/quotes/category/motivation` |
+| GET | `/api/categories` | Get all categories | Returns available categories |
+| POST | `/api/quotes` | Add new quote | Body: `{text, author, category}` |
 
 ### Example Request
 ```bash
@@ -139,164 +404,6 @@ curl http://localhost:3000/api/quotes/random
 }
 ```
 
-### Error Responses
-```json
-{
-  "error": "Quote not found",
-  "id": 999
-}
-```
-
----
-
-## Testing
-
-### Run Tests
-```bash
-# Run all tests with coverage
-npm test
-
-# Run tests in watch mode (for development)
-npm run test:watch
-
-# Generate coverage report
-npm test -- --coverage
-```
-
-### Test Coverage
-
-- **Statements:** 87.5%
-- **Branches:** 75%
-- **Functions:** 83.3%
-- **Lines:** 87.5%
-
-**14 passing tests** covering:
-- Health check endpoint
-- Quote retrieval (all, random, by ID, by category)
-- Categories endpoint
-- POST endpoint validation
-- Error handling
-- 404 handler
-
----
-
-## Docker
-
-### Multi-Stage Dockerfile
-
-Our Dockerfile uses multi-stage builds for optimization:
-
-**Stage 1: Builder**
-- Installs all dependencies
-- Runs tests (build fails if tests fail)
-- Prepares application files
-
-**Stage 2: Production**
-- Minimal production image
-- Only production dependencies
-- Non-root user for security
-- Health checks included
-
-**Final Image Size:** ~150MB
-
-### Build Locally
-```bash
-# Build image
-docker build -t quote-app:local .
-
-# Run container
-docker run -d -p 3000:3000 --name my-quote-app quote-app:local
-
-# View logs
-docker logs -f my-quote-app
-
-# Stop container
-docker stop my-quote-app
-```
-
-### Docker Compose
-
-**Production mode:**
-```bash
-docker compose up -d
-```
-
-**Development mode** (with live reload):
-```bash
-docker compose -f docker-compose.dev.yml up
-```
-
-### Environment Variables
-```bash
-# Run with custom environment
-docker run -p 3000:3000 \
-  -e NODE_ENV=production \
-  -e PORT=3000 \
-  -e APP_NAME="My Quote App" \
-  adityajareda/quote-app:latest
-```
-
----
-
-## CI/CD Pipeline
-
-### GitHub Actions Workflow
-
-Our automated pipeline runs on every push and pull request:
-```
-Code Push to GitHub
-    |
-    v
-+---------------------------------------------------+
-|  Stage 1: Test                                    |
-|  - Setup Node.js 18                               |
-|  - Install dependencies (npm ci)                  |
-|  - Run Jest tests                                 |
-|  - Generate coverage report                       |
-+---------------------------------------------------+
-    | (only if tests pass)
-    v
-+---------------------------------------------------+
-|  Stage 2: Build & Push                            |
-|  - Build Docker image (multi-stage)               |
-|  - Tag with commit SHA and 'latest'               |
-|  - Multi-platform build (amd64, arm64)            |
-|  - Push to Docker Hub                             |
-+---------------------------------------------------+
-    |
-    v
-+---------------------------------------------------+
-|  Stage 3: Security Scan                           |
-|  - Run Trivy vulnerability scanner                |
-|  - Generate SARIF report                          |
-|  - Upload to GitHub Security tab                  |
-+---------------------------------------------------+
-    |
-    v
-+---------------------------------------------------+
-|  Stage 4: Deployment Notification                 |
-|  - Create deployment summary                      |
-+---------------------------------------------------+
-```
-
-### Pipeline Features
-
-- **Automated Testing** - Runs on every commit
-- **Docker Build & Push** - Automatic image publishing
-- **Security Scanning** - Trivy vulnerability detection
-- **Multi-platform** - Builds for amd64 and arm64
-- **Branch Protection** - Requires passing tests before merge
-- **Status Badges** - Real-time build status
-- **Deployment Summaries** - Detailed run reports
-
-### View Pipeline Status
-
-Check the [Actions tab](https://github.com/AdityaJareda/quote-app-devops/actions) to see:
-- Build status
-- Test results
-- Security scan reports
-- Deployment history
-
 ---
 
 ## Project Structure
@@ -304,168 +411,175 @@ Check the [Actions tab](https://github.com/AdityaJareda/quote-app-devops/actions
 quote-app-devops/
 ├── .github/
 │   └── workflows/
-│       ├── ci-cd.yml           # Main CI/CD pipeline
-│       └── health-check.yml    # Scheduled health checks
-├── src/
-│   ├── app.js                  # Express server
-│   ├── routes/                 # API route handlers
-│   ├── controllers/            # Business logic
+│       ├── ci-cd.yml           # GitHub Actions pipeline
+│       └── health-check.yml    # Health Check pipeline
+├── k8s/                        # Kubernetes manifests
+│   ├── namespace.yaml
+│   ├── configmap.yaml
+│   ├── deployment.yaml
+│   ├── service.yaml
+│   ├── hpa.yaml
+│   └── README.md
+├── terraform/                  # Infrastructure as Code
+│   ├── modules/
+│   │   ├── docker/
+│   │   └── kubernetes/
+│   ├── environments/
+│   │   ├── dev/
+│   │   └── prod/
+│   └── README.md
+├── monitoring/                 # Monitoring configuration
+│   ├── prometheus-values.yaml
+│   ├── grafana-values.yaml
+│   ├── quote-app-dashboard.json
+│   └── README.md
+├── src/                        # Application source
+│   ├── app.js
+│   ├── routes/
+│   ├── controllers/
 │   └── data/
-│       └── quotes.json         # Quote database
-├── public/
-│   ├── index.html              # Frontend UI
-│   ├── style.css               # Styling
-│   └── script.js               # Frontend logic
-├── tests/
-│   └── app.test.js             # Unit tests (14 tests)
-├── coverage/                   # Test coverage reports
+│       └── quotes.json
+├── public/                     # Frontend files
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
+├── tests/                      # Test files
+│   └── app.test.js
 ├── docs/                       # Documentation
-│   └── DOCKER.md               # Docker guide
-├── .dockerignore               # Docker build exclusions
-├── .env.example                # Environment template
-├── .gitignore                  # Git exclusions
-├── docker-compose.yml          # Production compose
-├── docker-compose.dev.yml      # Development compose
-├── Dockerfile                  # Multi-stage build
-├── jest.config.js              # Test configuration
-├── LICENSE                     # MIT License
+│   └── DOCKER.md
+├── Dockerfile                  # Multi-stage Docker build
+├── docker-compose.yml          # Compose configuration
 ├── package.json                # Node.js dependencies
+├── jest.config.js              # Test configuration
+├── DEPLOYMENT.md               # Deployment guide
+├── TROUBLESHOOTING.md          # Troubleshooting docker
 └── README.md                   # This file
 ```
 
 ---
 
-## Environment Variables
+## Development
 
-| Variable | Description | Default | Required |
-|----------|-------------|---------|----------|
-| `PORT` | Server port | `3000` | No |
-| `NODE_ENV` | Environment (`development`, `production`) | `development` | No |
-| `APP_NAME` | Application name | `Quote App` | No |
-| `APP_VERSION` | Application version | `1.0.0` | No |
+### Local Development Setup
+```bash
+# Install dependencies
+npm install
 
-### Example `.env` file
+# Start dev server (with auto-reload)
+npm run dev
+
+# Run tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Check code coverage
+npm test -- --coverage
+```
+
+### Environment Variables
+
+Create `.env` file:
 ```env
 PORT=3000
-NODE_ENV=production
+NODE_ENV=development
 APP_NAME=Quote App
 APP_VERSION=1.0.0
+LOG_LEVEL=debug
+```
+
+### Code Quality
+```bash
+# Run linter (if configured)
+npm run lint
+
+# Format code (if configured)
+npm run format
 ```
 
 ---
 
-## Deployment
+## Testing
 
-### Docker
+### Test Coverage
 
+- **14 passing tests**
+- **85%+ code coverage**
+
+### Test Categories
+
+- Unit tests for all API endpoints
+- Integration tests for request/response cycle
+- Error handling tests
+- Validation tests
+
+### Running Tests
 ```bash
-# Pull latest image
-docker pull adityajareda/quote-app:latest
+# Run all tests
+npm test
 
-# Run on server
-docker run -d \
-  --name quote-app \
-  --restart unless-stopped \
-  -p 3000:3000 \
-  -e NODE_ENV=production \
-  adityajareda/quote-app:latest
+# Watch mode
+npm run test:watch
+
+# Coverage report
+npm test -- --coverage
+
+# View HTML coverage report
+open coverage/index.html
 ```
-
-### Kubernetes
-
-```bash
-# Start Minikube (local development)
-minikube start --driver=docker
-minikube addons enable metrics-server
-
-# Apply manifests
-kubectl apply -f k8s/
-
-# Check deployment
-kubectl get all -n quote-app
-
-# Access application
-minikube service quote-app-service -n quote-app --url
-
-# Or use port forwarding
-kubectl port-forward -n quote-app service/quote-app-service 8080:80
-```
-**Features:**
-- 3 replicas for high availability
-- Horizontal Pod Autoscaler (2-10 pods based on CPU/memory)
-- Health checks (liveness and readiness probes)
-- Resource limits and requests
-- ConfigMap for environment variables
-- NodePort service for external access
-- Rolling updates with zero downtime
-
-See [k8s/README.md](k8s/README.md) for detailed Kubernetes documentation.
 
 ---
 
-## Monitoring & Observability
+## Infrastructure as Code
 
-### Health Checks
+### Terraform Modules
 
-**Endpoint:** `GET /health`
+- **Docker Module**: Container deployments
+- **Kubernetes Module**: Orchestrated deployments
 
-**Response:**
-```json
-{
-  "status": "healthy",
-  "timestamp": "2025-01-15T10:30:00.000Z",
-  "uptime": 3600.5,
-  "environment": "production",
-  "quotesLoaded": 10
-}
-```
+### Environments
 
-### Docker Health Check
+- **Development**: Docker-based local environment
+- **Production**: Kubernetes cluster deployment
 
-Built-in Docker health check runs every 30 seconds:
+### Usage
 ```bash
-# Check container health
-docker inspect --format='{{.State.Health.Status}}' quote-app-container
+# Development environment
+cd terraform/environments/dev
+terraform init
+terraform plan
+terraform apply
+
+# Production environment
+cd terraform/environments/prod
+terraform init
+terraform plan
+terraform apply
 ```
 
-### GitHub Security
-
-View security scan results:
-- Go to repository **Security** tab
-- Click **Code scanning**
-- View Trivy vulnerability reports
+See [terraform/README.md](terraform/README.md) for detailed documentation.
 
 ---
 
 ## Roadmap
 
 ### Completed
-- [x] Full-stack application (Frontend + Backend)
+- [x] Full-stack application
 - [x] RESTful API with 7 endpoints
-- [x] Comprehensive unit tests (14 tests, 85%+ coverage)
-- [x] Dockerization with multi-stage build
+- [x] Comprehensive testing (14 tests, 85%+ coverage)
+- [x] Docker containerization
 - [x] Docker Compose setup
 - [x] Published to Docker Hub
-- [x] GitHub Actions CI/CD pipeline
-- [x] Automated security scanning
-- [x] Branch protection rules
-- [x] Multi-platform Docker builds
-
-### In Progress
-- [ ] Kubernetes deployment (Day 4)
-- [ ] Horizontal Pod Autoscaler
-- [ ] Ingress configuration
-
-### Planned
-- [ ] Terraform infrastructure as code
-- [ ] Monitoring with Prometheus + Grafana
-- [ ] Centralized logging with ELK stack
-- [ ] Database integration (MongoDB)
-- [ ] User authentication
-- [ ] Rate limiting
-- [ ] API documentation with Swagger
-- [ ] Load testing with k6
-- [ ] Blue-green deployment strategy
+- [x] GitHub Actions CI/CD
+- [x] Security scanning
+- [x] Multi-platform builds
+- [x] Kubernetes deployment
+- [x] Horizontal Pod Autoscaler
+- [x] Health checks and probes
+- [x] Terraform IaC
+- [x] Prometheus monitoring
+- [x] Grafana dashboards
 
 ---
 
@@ -477,24 +591,21 @@ This is a learning project, but contributions are welcome!
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Write/update tests
-5. Ensure all tests pass (`npm test`)
-6. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
-7. Push to the branch (`git push origin feature/amazing-feature`)
-8. Open a Pull Request
+3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ### Commit Convention
 
-We follow [Conventional Commits](https://www.conventionalcommits.org/):
+Follow [Conventional Commits](https://www.conventionalcommits.org/):
 
-- `feat:` - New feature
-- `fix:` - Bug fix
-- `docs:` - Documentation changes
-- `test:` - Test updates
-- `ci:` - CI/CD changes
-- `refactor:` - Code refactoring
-- `chore:` - Maintenance tasks
+- `feat:` New feature
+- `fix:` Bug fix
+- `docs:` Documentation changes
+- `test:` Test updates
+- `ci:` CI/CD changes
+- `refactor:` Code refactoring
+- `chore:` Maintenance tasks
 
 ---
 
@@ -510,24 +621,38 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - GitHub: [@AdityaJareda](https://github.com/AdityaJareda)
 - LinkedIn: [Aditya Singh](https://www.linkedin.com/in/adityajareda)
-
 ---
 
 ## Acknowledgments
 
 - Built as part of my DevOps learning journey
-- Inspired by modern DevOps best practices and industry standards
-- Quote data sourced from public domain
+- Inspired by modern DevOps best practices
+- Quote data from public domain
+
+---
+
+## Project Statistics
+
+- **Lines of Code**: 2,500+
+- **Docker Image Size**: ~150MB
+- **Test Coverage**: 85%+
+- **Kubernetes Resources**: 6 manifests
+- **Terraform Modules**: 2 (Docker, Kubernetes)
+- **CI/CD Stages**: 4
+- **API Endpoints**: 7
+- **Monitoring Metrics**: 10+
+- **Documentation Pages**: 7
 
 ---
 
 ## Additional Resources
 
 - [Docker Documentation](https://docs.docker.com/)
+- [Kubernetes Documentation](https://kubernetes.io/docs/)
+- [Terraform Documentation](https://www.terraform.io/docs)
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
-- [Express.js Guide](https://expressjs.com/)
-- [Jest Testing Framework](https://jestjs.io/)
-- [Docker Hub Repository](https://hub.docker.com/r/adityajareda/quote-app)
+- [Prometheus Documentation](https://prometheus.io/docs/)
+- [Grafana Documentation](https://grafana.com/docs/)
 
 ---
 
